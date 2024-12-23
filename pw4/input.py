@@ -1,39 +1,34 @@
-def input_students():
-    students = []
-    num_students = int(input("Enter number of students: "))
+
+from domains.student import Student
+from domains.course import Course
+
+def input_students(management, num_students):
     for _ in range(num_students):
         student_id = input("Enter student ID: ")
         name = input("Enter student name: ")
         dob = input("Enter student Date of Birth (DD/MM/YYYY): ")
-        students.append((student_id, name, dob))
-    return students
+        student = Student(student_id, name, dob)
+        management.add_student(student)
 
 
-def input_courses():
-    courses = []
-    num_courses = int(input("Enter number of courses: "))
+def input_courses(management, num_courses):
     for _ in range(num_courses):
         course_id = input("Enter course ID: ")
         name = input("Enter course name: ")
         credit = int(input("Enter course credit: "))
-        courses.append((course_id, name, credit))
-    return courses
+        course = Course(course_id, name, credit)
+        management.add_course(course)
 
 
-def input_marks(students, courses):
-    marks = {}
-    for course_id, course_name, _ in courses:
-        marks[course_id] = {}
-        print(f"\nEntering marks for course: {course_name}")
-        for student_id, student_name, _ in students:
+def input_marks(management):
+    for course in management.get_courses():
+        print(f"\nEntering marks for course: {course.get_name()}")
+        for student in management.get_students():
             while True:
                 try:
-                    mark = float(input(f"Enter marks for {student_name} (ID: {student_id}): "))
-                    if 0 <= mark <= 20:
-                        marks[course_id][student_id] = mark
-                        break
-                    else:
-                        print("Marks must be between 0 and 20.")
+                    mark = float(input(f"Enter marks for {student.get_name()} (ID: {student.get_id()}): "))
+                    student.add_mark(course.get_id(), mark)
+                    break
                 except ValueError:
                     print("Invalid input. Please enter a numeric value.")
-    return marks
+    
