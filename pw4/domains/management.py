@@ -1,17 +1,26 @@
+from .student import Student
+from .course import Course
+
 class StudentMarkManagement:
     def __init__(self):
         self.students = []
         self.courses = []
-        self.marks = {}
 
-    def add_students(self, students):
-        self.students = students
+    def add_students(self, student: Student):
+        self.students.append(student)
 
-    def add_courses(self, courses):
-        self.courses = courses
 
-    def add_marks(self, marks):
-        self.marks = marks
+    def get_students(self):
+        return self.students
+
+
+    def add_courses(self, course: Course):
+        self.courses.append(course)
+
+    
+    def get_courses(self):
+        return self.courses
+
 
     def calculate_gpas(self):
         for student in self.students:
