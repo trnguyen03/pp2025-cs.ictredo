@@ -27,9 +27,11 @@ class Student:
     def calculate_gpa(self, courses):
         total_weighted_sum = 0
         total_credits = 0
-        for course_id, course_name, credit in courses:
-            if course_id in self.__marks:
-                total_weighted_sum += self.__marks[course_id] * credit
+        for course in courses:
+            if course.get_id() in self.__marks:
+                credit = course.get_credit()
+                mark = self.__marks[course.get_id()]
+                total_weighted_sum += credit * mark
                 total_credits += credit
         self.__gpa = total_weighted_sum / total_credits if total_credits > 0 else 0
         return self.__gpa
