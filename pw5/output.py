@@ -1,6 +1,6 @@
 import curses
 
-def def curses_display(management):
+def curses_display(management):
     def draw_menu(stdscr):
         stdscr.clear()
         management.calculate_gpas()
