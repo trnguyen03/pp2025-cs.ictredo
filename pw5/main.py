@@ -3,6 +3,7 @@ import zipfile
 from input import input_students, input_courses, input_marks
 from output import curses_display
 from domains.management import StudentMarkManagement
+import pickle
 
 def main():
     management = StudentMarkManagement()
@@ -52,30 +53,22 @@ def main():
         else:
             print("Invalid choice. Please try again.")
 
-def load_data_from_files(management):
-    if os.path.exists("students.txt"):
-        with open("students.txt", "r", encoding="utf-8") as f:
-            for line in f:
-                line = line.strip()
-                if not line:
-                    continue
-                student_id, name, dob = line.split(",")
-                marks_data.append((student_id, course_id, mark))
-                
-        for sid, cid, mk in marks_data:
-            for student in management.get_students():
-                if student.get_id() == sid:
-                    student.add_mark(cid, mk)
+def save_management_data(management, pickle_file):
+    with open(pickle_file, "wb") as f:
+        pickle.dump(management, f)
 
-def compress_data(zip_filename):
-     with zipfile.ZipFile(zip_filename, "w", zipfile.ZIP_DEFLATED) as zf:
-         for txt_file in ["students.txt", "courses.txt", "marks.txt"]:
-            if os.path.exists(txt_file):
-                zf.write(txt_file)
+def load_management_data(pickle_file):
+    with open(pickle_file, "rb") as f:
+        management_obj = pickle.load(f)
+    return management_obj
 
-def decompress_data(zip_filename):
-    with zipfile.ZipFile(zip_filename, "r") as zf:
+def compress_data(input_file, archive_file):
+    with zipfile.ZipFile(archive_file, "w", zipfile.ZIP_DEFLATED) as zf:
+        zf.write(input_file)
+        
+def decompress_data(archive_file, output_file):
+ with zipfile.ZipFile(archive_file, "r") as zf:
         zf.extractall()
-
+    
 if __name__ == "__main__":
     main()
