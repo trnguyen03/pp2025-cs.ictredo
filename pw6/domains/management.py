@@ -19,9 +19,6 @@ class StudentMarkManagement:
         return self.courses
         
 
-    def add_marks(self, marks):
-        self.marks = marks
-
     def calculate_gpas(self):
         for student in self.students:
             student.calculate_gpa(self.courses)
