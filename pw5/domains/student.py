@@ -21,6 +21,8 @@ class Student:
         rounded_mark = math.floor(mark * 10) / 10
         self.__marks[course_id] = rounded_mark
 
+    def get_marks(self):
+        return self.__marks
 
     def calculate_gpa(self, courses):
         total_weighted_sum = 0
